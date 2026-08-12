@@ -7,33 +7,46 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
 
-  margin-bottom: $space-xl;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
 
   h1 {
     margin-bottom: 0.5rem;
+
+    color: $text;
+  }
+
+  p {
+    max-width: 600px;
   }
 }
 
-.placeholder {
+.total {
+  flex-shrink: 0;
+
+  padding: 0.5rem 0.75rem;
+
+  border-radius: $radius-md;
+
   background: $surface;
 
   border: 1px solid $border;
-  border-radius: $radius-lg;
 
-  padding: 2rem;
+  color: $text-light;
 
-  box-shadow: $shadow;
-
-  h2 {
-    margin-bottom: 0.5rem;
-  }
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 @media (max-width: $mobile) {
   .header {
+    flex-direction: column;
+
     margin-bottom: 1rem;
 
     h1 {
@@ -41,11 +54,7 @@
     }
   }
 
-  .placeholder {
-    padding: 1.25rem;
-
-    h2 {
-      font-size: 1.1rem;
-    }
+  .total {
+    width: 100%;
   }
 }

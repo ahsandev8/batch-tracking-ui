@@ -1,0 +1,40 @@
+@use "../../styles/abstracts/variables" as *;
+
+.container {
+  padding: 2rem 1rem;
+
+  text-align: center;
+
+  background: $surface;
+
+  border: 1px solid rgba(220, 38, 38, 0.2);
+
+  border-radius: $radius-lg;
+}
+
+.container h2 {
+  margin-bottom: 0.5rem;
+
+  color: $error;
+
+  font-size: 1.1rem;
+}
+
+.container p {
+  margin-bottom: 1rem;
+
+  font-size: 0.9rem;
+}
+
+.container button {
+  border: 0;
+  border-radius: $radius-md;
+
+  padding: 0.65rem 1rem;
+
+  background: $primary;
+  color: white;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+}

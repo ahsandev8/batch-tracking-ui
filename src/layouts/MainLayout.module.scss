@@ -56,7 +56,25 @@
   padding-block: $space-xl;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.username {
+  color: $text-light;
+  font-size: 0.875rem;
+}
+
 @media (max-width: $mobile) {
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .username {
+    display: none;
+  }
   .container {
     min-height: 56px;
   }

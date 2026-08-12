@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 
-import { loginApi } from "../../api/auth";
+import { useAuthStore } from "../../store/authStore";
+
 import styles from "./Login.module.scss";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const login = useAuthStore((state) => state.login);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,29 +34,25 @@ const Login = () => {
     try {
       setLoading(true);
 
-      const response = await loginApi({
+      await login({
         username: username.trim(),
         password,
       });
 
-      localStorage.setItem("access_token", response.access_token);
-
       navigate(from, {
         replace: true,
       });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setErrorMessage("Invalid username or password.");
-        } else if (!error.response) {
-          setErrorMessage("Unable to connect to the server.");
-        } else {
-          setErrorMessage(
-            error.response.data?.detail || "Login failed. Please try again.",
-          );
-        }
+    } catch (error: any) {
+      const status = error?.response?.status;
+
+      if (status === 401) {
+        setErrorMessage("Invalid username or password.");
+      } else if (!error?.response) {
+        setErrorMessage("Unable to connect to the server.");
       } else {
-        setErrorMessage("Something went wrong. Please try again.");
+        setErrorMessage(
+          error?.response?.data?.detail || "Login failed. Please try again.",
+        );
       }
     } finally {
       setLoading(false);
