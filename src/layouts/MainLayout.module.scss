@@ -1,0 +1,75 @@
+@use "../styles/abstracts/variables" as *;
+@use "../styles/abstracts/breakpoints" as *;
+
+.layout {
+  min-height: 100vh;
+  background: $background;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background: $surface;
+  border-bottom: 1px solid $border;
+}
+
+.container {
+  width: min($container, 92%);
+  margin-inline: auto;
+
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $text;
+}
+
+.logoutButton {
+  border: 0;
+  background: transparent;
+
+  color: $error;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  padding: 0.5rem 0.75rem;
+  border-radius: $radius-sm;
+
+  transition: background $transition;
+
+  &:hover {
+    background: rgba(220, 38, 38, 0.08);
+  }
+}
+
+.main {
+  padding-block: $space-xl;
+}
+
+@media (max-width: $mobile) {
+  .container {
+    min-height: 56px;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .logoutButton {
+    font-size: 0.8rem;
+  }
+
+  .main {
+    padding-block: 1rem;
+  }
+}

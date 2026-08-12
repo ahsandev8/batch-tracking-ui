@@ -1,0 +1,51 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/breakpoints" as *;
+
+.dashboard {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  margin-bottom: $space-xl;
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.placeholder {
+  background: $surface;
+
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+
+  padding: 2rem;
+
+  box-shadow: $shadow;
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: $mobile) {
+  .header {
+    margin-bottom: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .placeholder {
+    padding: 1.25rem;
+
+    h2 {
+      font-size: 1.1rem;
+    }
+  }
+}

@@ -1,0 +1,210 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/breakpoints" as *;
+
+.page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background: $background;
+}
+
+.card {
+  width: min(100%, 420px);
+
+  background: $surface;
+
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+
+  padding: 2rem;
+
+  box-shadow: $shadow;
+}
+
+.header {
+  text-align: center;
+
+  margin-bottom: 2rem;
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text;
+  }
+
+  input {
+    width: 100%;
+
+    padding: 0.75rem 0.875rem;
+
+    border: 1px solid $border;
+    border-radius: $radius-md;
+
+    outline: none;
+
+    color: $text;
+    background: $surface;
+
+    transition:
+      border-color $transition,
+      box-shadow $transition;
+
+    &:focus {
+      border-color: $primary;
+
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+  }
+}
+
+.submitButton {
+  width: 100%;
+
+  border: 0;
+  border-radius: $radius-md;
+
+  padding: 0.8rem 1rem;
+
+  background: $primary;
+  color: white;
+
+  font-weight: 600;
+
+  transition: background $transition;
+
+  &:hover {
+    background: $primary-hover;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@media (max-width: $mobile) {
+  .page {
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+}
+.error {
+  margin-bottom: 1rem;
+
+  padding: 0.75rem 1rem;
+
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: $radius-md;
+
+  background: rgba(220, 38, 38, 0.06);
+
+  color: $error;
+
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.submitButton {
+  width: 100%;
+
+  border: 0;
+  border-radius: $radius-md;
+
+  padding: 0.8rem 1rem;
+
+  background: $primary;
+  color: white;
+
+  font-weight: 600;
+
+  transition:
+    background $transition,
+    opacity $transition;
+
+  &:hover:not(:disabled) {
+    background: $primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text;
+  }
+
+  input {
+    width: 100%;
+
+    padding: 0.75rem 0.875rem;
+
+    border: 1px solid $border;
+    border-radius: $radius-md;
+
+    outline: none;
+
+    color: $text;
+    background: $surface;
+
+    transition:
+      border-color $transition,
+      box-shadow $transition;
+
+    &:focus {
+      border-color: $primary;
+
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+      background: $background;
+    }
+  }
+}
