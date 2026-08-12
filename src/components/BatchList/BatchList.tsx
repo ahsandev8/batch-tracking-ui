@@ -1,4 +1,4 @@
-import type { Batch } from "../../types/batch";
+import type { Batch, BatchStatus } from "../../types/batch";
 
 import BatchCard from "../BatchCard/BatchCard";
 
@@ -7,7 +7,7 @@ import styles from "./BatchList.module.scss";
 interface BatchListProps {
   batches: Batch[];
 
-  onStatusChange: (batchId: string, nextStatus: any) => void;
+  onStatusChange: (batchId: string, nextStatus: BatchStatus) => void;
 
   updatingBatchId?: string | null;
 }

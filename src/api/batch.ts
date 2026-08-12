@@ -16,6 +16,7 @@ export interface GetBatchesParams {
 
 export const getBatchesApi = async (
   params: GetBatchesParams,
+  signal?: AbortSignal,
 ): Promise<PaginatedBatchResponse> => {
   const response = await api.get<PaginatedBatchResponse>("/batch/", {
     params: {

@@ -2,35 +2,38 @@
 $primary: #2563eb;
 $primary-hover: #1d4ed8;
 
-$success: #16a34a;
-$warning: #f59e0b;
-$error: #dc2626;
-
-$background: #f5f7fb;
+$background: #f8fafc;
 $surface: #ffffff;
 
 $text: #111827;
 $text-light: #6b7280;
+$text-muted: #9ca3af;
 
 $border: #e5e7eb;
 
-// Radius
-$radius-sm: 6px;
-$radius-md: 10px;
-$radius-lg: 14px;
+$error: #dc2626;
+$success: #16a34a;
+$warning: #d97706;
 
-// Shadow
-$shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+$space-xl: 1.5rem;
+$space-lg: 1rem;
+$space-md: 0.75rem;
+$space-sm: 0.5rem;
+$space-xs: 0.25rem;
 
-// Container
+// Layout
 $container: 1200px;
 
-// Spacing
-$space-xs: 0.5rem;
-$space-sm: 0.75rem;
-$space-md: 1rem;
-$space-lg: 1.5rem;
-$space-xl: 2rem;
+// Border radius
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
 
-// Transition
-$transition: 0.25s ease;
+// Shadows
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+// Transitions
+$transition: 160ms ease;

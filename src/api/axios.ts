@@ -1,44 +1,34 @@
-import axios, { AxiosError } from "axios";
-import type { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { env } from "../config/env";
 
-if (!API_URL) {
-  throw new Error("VITE_API_URL is not configured in the environment.");
-}
-
-const api: AxiosInstance = axios.create({
-  baseURL: API_URL,
+const api = axios.create({
+  baseURL: env.apiUrl,
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const authStorage = localStorage.getItem("batch-tracking-auth");
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const storage = localStorage.getItem("batch-tracking-auth");
 
-    if (authStorage) {
-      try {
-        const parsed = JSON.parse(authStorage);
+  if (storage) {
+    try {
+      const parsed = JSON.parse(storage);
 
-        const token = parsed?.state?.token;
+      const token = parsed?.state?.token;
 
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-      } catch {
-        localStorage.removeItem("batch-tracking-auth");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
       }
+    } catch {
+      localStorage.removeItem("batch-tracking-auth");
     }
+  }
 
-    return config;
-  },
-  (error: AxiosError) => {
-    return Promise.reject(error);
-  },
-);
+  return config;
+});
 
 api.interceptors.response.use(
   (response) => response,

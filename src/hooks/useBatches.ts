@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import axios from "axios";
 
 import { getBatchesApi } from "../api/batch";
 
@@ -8,8 +10,13 @@ import type {
   PaginatedBatchResponse,
 } from "../types/batch";
 
+import { getApiErrorMessage } from "../utils/apiError";
+
 interface UseBatchesReturn {
   batches: Batch[];
+
+  setBatches: React.Dispatch<React.SetStateAction<Batch[]>>;
+
   pagination: Omit<PaginatedBatchResponse, "items"> | null;
 
   loading: boolean;
@@ -29,17 +36,39 @@ export const useBatches = (filters: BatchFilters): UseBatchesReturn => {
 
   const [error, setError] = useState<string | null>(null);
 
+  const requestIdRef = useRef(0);
+
+  const controllerRef = useRef<AbortController | null>(null);
+
   const fetchBatches = useCallback(async () => {
+    const requestId = ++requestIdRef.current;
+
+    controllerRef.current?.abort();
+
+    const controller = new AbortController();
+
+    controllerRef.current = controller;
+
     try {
       setLoading(true);
       setError(null);
 
       const response = await getBatchesApi({
         status: filters.status || undefined,
+
         type: filters.type || undefined,
+
         page: filters.page,
+
         page_size: filters.page_size,
       });
+
+      /*
+       * Ignore stale responses.
+       */
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
 
       setBatches(response.items);
 
@@ -49,34 +78,34 @@ export const useBatches = (filters: BatchFilters): UseBatchesReturn => {
         page_size: response.page_size,
         total_pages: response.total_pages,
       });
-    } catch (error: any) {
-      if (error?.response?.status === 401) {
+    } catch (error) {
+      if (axios.isCancel(error)) {
         return;
       }
 
-      if (!error?.response) {
-        setError(
-          "Unable to connect to the server. Please check your network connection.",
-        );
-
+      if (requestId !== requestIdRef.current) {
         return;
       }
 
-      setError(
-        error?.response?.data?.detail ||
-          "Failed to load batches. Please try again.",
-      );
+      setError(getApiErrorMessage(error, "Failed to load batches."));
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   }, [filters.status, filters.type, filters.page, filters.page_size]);
 
   useEffect(() => {
     fetchBatches();
+
+    return () => {
+      controllerRef.current?.abort();
+    };
   }, [fetchBatches]);
 
   return {
     batches,
+    setBatches,
     pagination,
     loading,
     error,

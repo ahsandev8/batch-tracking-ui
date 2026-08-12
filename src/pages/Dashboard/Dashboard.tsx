@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { useBatches } from "../../hooks/useBatches";
+import { useBatchStatusUpdate } from "../../hooks/useBatchStatusUpdate";
 
 import type { BatchStatus } from "../../types/batch";
 
@@ -10,6 +11,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import EmptyState from "../../components/EmptyState/EmptyState";
 import ErrorState from "../../components/ErrorState/ErrorState";
 import BatchSkeleton from "../../components/Loader/BatchSkeleton";
+import Toast from "../../components/Toast/Toast";
 
 import styles from "./Dashboard.module.scss";
 
@@ -22,12 +24,20 @@ const Dashboard = () => {
 
   const [page, setPage] = useState(1);
 
-  const { batches, pagination, loading, error, refetch } = useBatches({
-    status,
-    type,
-    page,
-    page_size: PAGE_SIZE,
-  });
+  const [toast, setToast] = useState<string | null>(null);
+
+  const { batches, setBatches, pagination, loading, error, refetch } =
+    useBatches({
+      status,
+      type,
+      page,
+      page_size: PAGE_SIZE,
+    });
+
+  const { updatingBatchId, updateStatus } = useBatchStatusUpdate(
+    batches,
+    setBatches,
+  );
 
   const types = useMemo(() => {
     const uniqueTypes = new Set(batches.map((batch) => batch.batch_type));
@@ -35,18 +45,40 @@ const Dashboard = () => {
     return Array.from(uniqueTypes).sort();
   }, [batches]);
 
-  const handleStatusChange = (value: BatchStatus | "") => {
+  const handleStatusFilterChange = (value: BatchStatus | "") => {
     setStatus(value);
-
-    // Reset pagination when filter changes
     setPage(1);
   };
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeFilterChange = (value: string) => {
     setType(value);
-
-    // Reset pagination when filter changes
     setPage(1);
+  };
+
+  const handleStatusChange = async (
+    batchId: string,
+    nextStatus: BatchStatus,
+  ) => {
+    const batch = batches.find((item) => item.id === batchId);
+
+    if (!batch) {
+      return;
+    }
+
+    try {
+      await updateStatus(batch, nextStatus);
+
+      setToast("Batch status updated successfully.");
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        return;
+      }
+
+      setToast(
+        error?.response?.data?.detail ||
+          "Unable to update batch status. The change was reverted.",
+      );
+    }
   };
 
   return (
@@ -69,8 +101,8 @@ const Dashboard = () => {
         status={status}
         type={type}
         types={types}
-        onStatusChange={handleStatusChange}
-        onTypeChange={handleTypeChange}
+        onStatusChange={handleStatusFilterChange}
+        onTypeChange={handleTypeFilterChange}
       />
 
       {loading && <BatchSkeleton />}
@@ -89,7 +121,11 @@ const Dashboard = () => {
 
       {!loading && !error && batches.length > 0 && (
         <>
-          <BatchList batches={batches} onStatusChange={() => {}} />
+          <BatchList
+            batches={batches}
+            onStatusChange={handleStatusChange}
+            updatingBatchId={updatingBatchId}
+          />
 
           {pagination && (
             <Pagination
@@ -100,6 +136,8 @@ const Dashboard = () => {
           )}
         </>
       )}
+
+      {toast && <Toast message={toast} onClose={() => setToast(null)} />}
     </section>
   );
 };
