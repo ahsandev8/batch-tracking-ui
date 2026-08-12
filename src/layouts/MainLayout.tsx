@@ -27,7 +27,9 @@ const MainLayout = () => {
 
           <div className={styles.actions}>
             {user?.username && (
-              <span className={styles.username}>{user.username}</span>
+              <span className={styles.username}>
+                {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+              </span>
             )}
 
             <button
