@@ -59,6 +59,12 @@ const Login = () => {
     }
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage) {
+      setErrorMessage("");
+    }
+  };
+
   return (
     <main className={styles.page}>
       <div className={styles.card}>
@@ -82,7 +88,9 @@ const Login = () => {
               id="username"
               type="text"
               value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              onChange={(event) => {
+                (setUsername(event.target.value), handleChange(event));
+              }}
               placeholder="Enter username"
               autoComplete="username"
               disabled={loading}
@@ -96,7 +104,9 @@ const Login = () => {
               id="password"
               type="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                (setPassword(event.target.value), handleChange(event));
+              }}
               placeholder="Enter password"
               autoComplete="current-password"
               disabled={loading}
