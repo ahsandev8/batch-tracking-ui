@@ -9,6 +9,13 @@ import type { BatchStatus } from "../../types/batch";
 import styles from "./UpdateBatch.module.scss";
 import { uiEndpoint } from "../../utils/endpoints";
 
+const STATUS_OPTIONS: { label: string; value: BatchStatus }[] = [
+  { label: "Queued", value: "queued" },
+  { label: "Processing", value: "processing" },
+  { label: "Completed", value: "completed" },
+  { label: "Failed", value: "failed" },
+];
+
 const UpdateBatch = () => {
   const { id } = useParams();
 
@@ -46,30 +53,84 @@ const UpdateBatch = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  const handleCancel = () => {
+    if (id) {
+      navigate(`${uiEndpoint.batchDetails}/${id}`);
+    } else {
+      navigate(-1);
+    }
+  };
 
-  if (!batch) return <p>Batch not found.</p>;
+  if (loading) {
+    return (
+      <section className={styles.page}>
+        <p className={styles.state}>Loading batch…</p>
+      </section>
+    );
+  }
+
+  if (!batch) {
+    return (
+      <section className={styles.page}>
+        <p className={styles.state}>Batch not found.</p>
+      </section>
+    );
+  }
 
   return (
     <section className={styles.page}>
-      <h1>Update Batch</h1>
+      <div className={styles.header}>
+        <h1>Update Batch</h1>
+        <p>Change the status of an existing batch.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <input value={batch.sample_id} disabled />
+      <form onSubmit={handleSubmit} className={styles.form} noValidate>
+        <div className={styles.row}>
+          <div className={styles.group}>
+            <label htmlFor="sample_id">Sample ID</label>
+            <input id="sample_id" value={batch.sample_id} disabled />
+          </div>
 
-        <input value={batch.batch_type} disabled />
+          <div className={styles.group}>
+            <label htmlFor="batch_type">Batch Type</label>
+            <input id="batch_type" value={batch.batch_type} disabled />
+          </div>
+        </div>
 
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as BatchStatus)}
-        >
-          <option value="queued">Queued</option>
-          <option value="processing">Processing</option>
-          <option value="completed">Completed</option>
-          <option value="failed">Failed</option>
-        </select>
+        <p className={styles.readOnlyNote}>
+          Sample ID and batch type are set at creation and can&apos;t be changed
+          here.
+        </p>
 
-        <button disabled={saving}>{saving ? "Saving..." : "Update"}</button>
+        <div className={styles.group}>
+          <label htmlFor="status">Status</label>
+          <select
+            id="status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value as BatchStatus)}
+          >
+            {STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.cancelButton}
+            onClick={handleCancel}
+            disabled={saving}
+          >
+            Cancel
+          </button>
+
+          <button type="submit" className={styles.button} disabled={saving}>
+            {saving ? "Saving…" : "Update"}
+          </button>
+        </div>
       </form>
     </section>
   );

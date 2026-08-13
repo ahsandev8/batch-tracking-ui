@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 
 import { Link } from "react-router-dom";
-// Use a local inline plus icon to avoid dependency on react-icons
+import { Plus } from "lucide-react";
 
 import { useBatches } from "../../hooks/useBatches";
 import { useBatchStatusUpdate } from "../../hooks/useBatchStatusUpdate";
 
 import type { BatchStatus } from "../../types/batch";
-import { Plus } from "lucide-react";
 
 import BatchList from "../../components/BatchList/BatchList";
 import FilterBar from "../../components/FilterBar/FilterBar";
@@ -74,13 +73,13 @@ const Dashboard = () => {
       await updateStatus(batch, nextStatus);
 
       setToast("Batch status updated successfully.");
-    } catch (error: any) {
-      if (error?.response?.status === 401) {
+    } catch (err: any) {
+      if (err?.response?.status === 401) {
         return;
       }
 
       setToast(
-        error?.response?.data?.detail ||
+        err?.response?.data?.detail ||
           "Unable to update batch status. The change was reverted.",
       );
     }
@@ -107,6 +106,7 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
+
       <FilterBar
         status={status}
         type={type}
