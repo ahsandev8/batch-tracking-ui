@@ -82,7 +82,7 @@ const BatchCard = ({
         )}
       </div>
 
-      {nextStatus && (
+      {/* {nextStatus && (
         <div className={styles.actions}>
           <button
             type="button"
@@ -92,7 +92,7 @@ const BatchCard = ({
             {updating ? "Updating..." : `Move to ${getStatusLabel(nextStatus)}`}
           </button>
         </div>
-      )}
+      )} */}
     </article>
   );
 };

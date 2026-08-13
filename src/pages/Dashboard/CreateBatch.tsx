@@ -6,13 +6,6 @@ import { useCreateBatch } from "../../hooks/useCreateBatch";
 import styles from "./CreateBatch.module.scss";
 import { uiEndpoint } from "../../utils/endpoints";
 
-const BATCH_TYPES = [
-  { label: "Queued", value: "queued" },
-  { label: "Processing", value: "processing" },
-  { label: "Completed", value: "completed" },
-  { label: "Failed", value: "failed" },
-];
-
 interface BatchForm {
   sample_id: string;
   batch_type: string;
@@ -80,23 +73,15 @@ const CreateBatch = () => {
 
         <div className={styles.group}>
           <label htmlFor="batch_type">Batch Type</label>
-          <select
+          <input
             id="batch_type"
             name="batch_type"
+            placeholder="e.g. Library Prep"
             value={form.batch_type}
             onChange={handleChange}
+            autoComplete="off"
             required
-          >
-            <option value="" disabled>
-              Select batch type
-            </option>
-
-            {BATCH_TYPES.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className={styles.group}>

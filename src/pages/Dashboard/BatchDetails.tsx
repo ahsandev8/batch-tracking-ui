@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { useBatchById } from "../../hooks/useBatchById";
 
 import styles from "./BatchDetails.module.scss";
+import { ArrowLeft } from "lucide-react";
+import { uiEndpoint } from "../../utils/endpoints";
 
 const STATUS_STYLES: Record<string, string> = {
   completed: styles.statusCompleted,
@@ -62,7 +64,21 @@ const BatchDetails = () => {
       <div className={styles.header}>
         <h1>Batch Details</h1>
 
-        <Link to={`/batch/${batch.id}/edit`}>Edit Status</Link>
+        <Link to={uiEndpoint.bashborad}>
+          <span
+            style={{
+              cursor: "pointer",
+              padding: "0.5rem",
+              border: "1px solid gray",
+              borderRadius: "4px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <ArrowLeft size={20} />
+          </span>
+        </Link>
       </div>
 
       <div className={styles.card}>

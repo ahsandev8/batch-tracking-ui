@@ -67,6 +67,16 @@
   justify-content: flex-end;
   gap: 1rem;
 }
+.cancel {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: transparent;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
 
 .submit {
   padding: 0.75rem 1.5rem;
