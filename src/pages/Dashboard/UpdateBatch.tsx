@@ -41,9 +41,7 @@ const UpdateBatch = () => {
     setSaving(true);
 
     try {
-      await updateBatchStatusApi(id, {
-        status,
-      });
+      await updateBatchStatusApi(id, { status });
 
       await refetch();
 
