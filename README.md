@@ -17,59 +17,71 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  # Batch Tracking UI
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  A small React + TypeScript UI for creating and tracking processing batches. Built with Vite, Axios, Zustand and a lightweight toast notification system.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  Features
+
+  - Create and list batches
+  - Update batch status
+  - Global API error handling with toast notifications
+
+  Requirements
+
+  - Node.js 18+ and npm or yarn
+
+  Environment
+
+  Create a `.env` file in the project root with the API base URL:
 
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+VITE_API_URL=http://127.0.0.1:8000
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+````
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Project scripts
 
+- `npm run dev` — start development server
+- `npm run build` — build for production
+- `npm run preview` — preview production build
+- `npm run lint` — run ESLint
+
+Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+````
+
+2. Add `.env` as above.
+
+3. Start dev server:
+
+```bash
+npm run dev
 ```
+
+API notes
+
+- Base URL is read from `src/config/env.ts` via `VITE_API_URL`.
+- Requests attach an `Authorization` header when `localStorage` contains the `batch-tracking-auth` key (see `src/api/axios.ts`).
+- Main endpoints used by the UI:
+  - `POST /batch/` — create batch (expects JSON `{ sample_id, batch_type, submitted_by }`)
+  - `GET /batch/` — list batches
+  - `GET /batch/:id` — get batch details
+  - `PUT /batch/:id` — update batch
+
+Notifications
+
+- The app includes a simple toast system. API errors are shown automatically as error toasts. You can find the implementation in `src/components/Toast` and the service at `src/utils/toastService.ts`.
+
+Contributing
+
+Feel free to open issues or PRs. For development, follow the standard Git workflow and run linting before committing.
+
+License
+
+This project is provided as-is.
