@@ -5,9 +5,6 @@ import { env } from "../config/env";
 const api = axios.create({
   baseURL: env.apiUrl,
   timeout: 15000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {

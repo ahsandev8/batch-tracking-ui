@@ -14,12 +14,13 @@ export interface GetBatchesParams {
   page_size?: number;
 }
 
-export const createBatchApi = async (data: FormData): Promise<Batch> => {
-  const response = await api.post<Batch>("/batch", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+export const createBatchApi = async (
+  data: FormData | Record<string, any>,
+): Promise<Batch> => {
+  // Use trailing slash to match backend route and accept both FormData and JSON.
+  const url = "/batch/";
+
+  const response = await api.post<Batch>(url, data);
 
   return response.data;
 };

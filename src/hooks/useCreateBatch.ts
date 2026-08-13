@@ -22,7 +22,12 @@ export const useCreateBatch = (): UseCreateBatchReturn => {
       setError(null);
 
       try {
-        const batch = await createBatchApi(data as any);
+        // Send JSON object; `createBatchApi` accepts both JSON and FormData.
+        const batch = await createBatchApi({
+          sample_id: data.sample_id,
+          batch_type: data.batch_type,
+          submitted_by: data.submitted_by,
+        });
 
         return batch;
       } catch (err: any) {
