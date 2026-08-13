@@ -1,9 +1,13 @@
 import { useMemo, useState } from "react";
 
+import { Link } from "react-router-dom";
+// Use a local inline plus icon to avoid dependency on react-icons
+
 import { useBatches } from "../../hooks/useBatches";
 import { useBatchStatusUpdate } from "../../hooks/useBatchStatusUpdate";
 
 import type { BatchStatus } from "../../types/batch";
+import { Plus } from "lucide-react";
 
 import BatchList from "../../components/BatchList/BatchList";
 import FilterBar from "../../components/FilterBar/FilterBar";
@@ -14,6 +18,7 @@ import BatchSkeleton from "../../components/Loader/BatchSkeleton";
 import Toast from "../../components/Toast/Toast";
 
 import styles from "./Dashboard.module.scss";
+import { uiEndpoint } from "../../utils/endpoints";
 
 const PAGE_SIZE = 10;
 
@@ -86,17 +91,22 @@ const Dashboard = () => {
       <div className={styles.header}>
         <div>
           <h1>Batch Dashboard</h1>
-
           <p>Track and manage your laboratory batches.</p>
         </div>
 
-        {pagination && (
-          <div className={styles.total}>
-            {pagination.total} {pagination.total === 1 ? "batch" : "batches"}
-          </div>
-        )}
-      </div>
+        <div className={styles.headerActions}>
+          {pagination && (
+            <div className={styles.total}>
+              {pagination.total} {pagination.total === 1 ? "batch" : "batches"}
+            </div>
+          )}
 
+          <Link to={uiEndpoint.createBatch} className={styles.createButton}>
+            <Plus size={18} />
+            <span>Create Batch</span>
+          </Link>
+        </div>
+      </div>
       <FilterBar
         status={status}
         type={type}

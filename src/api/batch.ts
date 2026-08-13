@@ -14,6 +14,16 @@ export interface GetBatchesParams {
   page_size?: number;
 }
 
+export const createBatchApi = async (data: FormData): Promise<Batch> => {
+  const response = await api.post<Batch>("/batch", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
 export const getBatchesApi = async (
   params: GetBatchesParams,
   signal?: AbortSignal,

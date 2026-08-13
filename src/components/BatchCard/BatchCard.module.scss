@@ -24,12 +24,45 @@
 
 .top {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-
+  align-items: flex-start;
   gap: 1rem;
-
   margin-bottom: 1.25rem;
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid $border;
+  border-radius: $radius-md;
+
+  background: $surface;
+  color: $text;
+  text-decoration: none;
+
+  transition: all $transition;
+
+  &:hover {
+    background: $primary;
+    color: #fff;
+    border-color: $primary;
+  }
 }
 
 .label {

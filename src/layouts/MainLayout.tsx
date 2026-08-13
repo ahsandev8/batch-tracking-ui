@@ -19,11 +19,19 @@ const MainLayout = () => {
     });
   };
 
+  const handleHome = () => {
+    navigate("/dashboard", {
+      replace: true,
+    });
+  };
+
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
         <div className={styles.container}>
-          <div className={styles.brand}>Batch Tracking</div>
+          <div className={styles.brand} onClick={handleHome}>
+            Batch Tracking
+          </div>
 
           <div className={styles.actions}>
             {user?.username && (

@@ -29,3 +29,9 @@ export interface BatchFilters {
   page: number;
   page_size: number;
 }
+
+export interface BatchCreate {
+  sample_id: string;
+  batch_type: string;
+  submitted_by: string;
+}

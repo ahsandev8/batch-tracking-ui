@@ -1,0 +1,101 @@
+@use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/breakpoints" as *;
+
+.page {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 2rem;
+
+  h1 {
+    margin-bottom: 0.5rem;
+    color: $text;
+  }
+
+  p {
+    color: $text-light;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  padding: 2rem;
+
+  background: $surface;
+
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 600;
+    color: $text;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+
+    padding: 0.75rem 1rem;
+
+    border: 1px solid $border;
+    border-radius: $radius-md;
+
+    background: $background;
+
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.submit {
+  padding: 0.75rem 1.5rem;
+
+  border: none;
+  border-radius: $radius-md;
+
+  background: $primary;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: $mobile) {
+  .form {
+    padding: 1.25rem;
+  }
+
+  .actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
