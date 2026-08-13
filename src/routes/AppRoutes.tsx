@@ -8,16 +8,17 @@ import BatchDetails from "../pages/Dashboard/BatchDetails";
 import Login from "../pages/Login/Login";
 
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRouter";
 import { uiEndpoint } from "../utils/endpoints";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
-        <Route path="/login" element={<Login />} />
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
 
-        {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path={uiEndpoint.bashborad} element={<Dashboard />} />

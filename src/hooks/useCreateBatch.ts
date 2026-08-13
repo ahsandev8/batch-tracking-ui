@@ -33,6 +33,19 @@ export const useCreateBatch = (): UseCreateBatchReturn => {
       } catch (err: any) {
         setError(err?.response?.data?.detail || "Unable to create batch.");
 
+        // show toast for this operation as well
+        try {
+          const { showToast } = await import("../utils/toastService");
+          showToast(
+            err?.response?.data?.detail ||
+              err.message ||
+              "Unable to create batch.",
+            "error",
+          );
+        } catch (_) {
+          // ignore
+        }
+
         throw err;
       } finally {
         setLoading(false);

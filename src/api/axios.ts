@@ -1,6 +1,7 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 import { env } from "../config/env";
+import { showToast } from "../utils/toastService";
 
 const api = axios.create({
   baseURL: env.apiUrl,
@@ -29,8 +30,20 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 api.interceptors.response.use(
   (response) => response,
-
   (error: AxiosError) => {
+    const message =
+      error?.response?.data?.detail ||
+      error?.response?.data?.error ||
+      error.message ||
+      "An error occurred";
+
+    // Show toast for API errors
+    try {
+      showToast(String(message), "error");
+    } catch (_) {
+      // ignore
+    }
+
     if (error.response?.status === 401) {
       localStorage.removeItem("batch-tracking-auth");
 
